@@ -8,7 +8,7 @@ public class Task {
     protected String description;
     protected LocalDate date;
 
-    public Task(int id,String title, String description, LocalDate date){
+    public Task(int id, String title, String description, LocalDate date){
         this.id = id;
         this.title = title;
         this.description = description;

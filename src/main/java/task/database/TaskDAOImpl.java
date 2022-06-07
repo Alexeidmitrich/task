@@ -3,6 +3,7 @@ package task.database;
 import task.Task;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,14 +13,12 @@ public class TaskDAOImpl extends DBManager implements TaskDAO {
     public List<Task> getAllTask() {
         List<Task> taskList = new ArrayList<>();
         Connection connection = getConnection();
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM task.task");
-            while (rs.next()){
-               Task task = new Task(rs.getInt(1),rs.getString(2),rs.getString(3), rs.getDate(4).toLocalDate());
+        try(Statement stmt = connection.createStatement()) {
+            ResultSet rs = stmt.executeQuery("SELECT * FROM task");
+            while (rs.next()) {
+                Task task = new Task(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4).toLocalDate());
                 taskList.add(task);
             }
-            connection.close();
         } catch (SQLException ex) {
             System.out.println("Что-то пошло не так");
             ex.printStackTrace();
@@ -29,25 +28,50 @@ public class TaskDAOImpl extends DBManager implements TaskDAO {
 
     @Override
     public Task getTaskById(int id) {
-        return null;
+        Task task = null;
+        try(Connection connection = getConnection();) {
+            PreparedStatement statement = connection.prepareStatement("SELECT * from task " +
+                    " WHERE id = ?");
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            task = new Task(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4).toLocalDate());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return task;
     }
+    public Task getTaskByDate(LocalDate date) {
+        Task task = null;
+        try(Connection connection = getConnection();) {
+            PreparedStatement statement = connection.prepareStatement("SELECT * from task " +
+                    " WHERE data = ?");
+            statement.setDate(1,Date.valueOf(date));
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            task = new Task(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4).toLocalDate());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return task;
+    }
+
 
     @Override
     public void save(Task task) {
-        Connection connection = null;
+        Connection connection = getConnection();
         try {
-            connection  = getConnection();
-            String sql = "INSERT INTO task.task (id,title,description,data ) VALUES (?,?,?,?)";
+            String sql = " INSERT INTO task (id, title,description,data) VALUES (?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1,task.getId());
+            statement.setInt(1, task.getId());
             statement.setString(2, task.getTitle());
             statement.setString(3, task.getDescription());
-            statement.setDate(4, Date.valueOf(task.getLocalDate()));
+            statement.setDate(4, Date.valueOf(task.getDate()));
             statement.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            if (connection != null){
+            if (connection != null) {
                 try {
                     connection.close();
                 } catch (SQLException e) {
@@ -57,4 +81,3 @@ public class TaskDAOImpl extends DBManager implements TaskDAO {
         }
     }
 }
-
