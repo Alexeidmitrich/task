@@ -55,6 +55,19 @@ public class TaskDAOImpl extends DBManager implements TaskDAO {
         }
         return task;
     }
+    public Task getUpdateTask(String description, int id) {
+        Task task = null;
+        try(Connection connection = getConnection()) {
+            String sql = "UPDATE task.task  SET description = ? where id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, description);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return task;
+    }
 
 
     @Override

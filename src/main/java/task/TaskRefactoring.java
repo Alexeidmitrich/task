@@ -29,5 +29,10 @@ public class TaskRefactoring {
         Task t = taskDAOImpl.getTaskByDate(date);
         t.printInformation();
     }
+    public void updateTaskInfo(String description, int id){
+        TaskDAOImpl taskDAOImpl = new TaskDAOImpl();
+        Task t = taskDAOImpl.getUpdateTask(description,id);
+        t.printInformation();
+    }
 
 }

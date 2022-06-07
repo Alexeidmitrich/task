@@ -17,6 +17,7 @@ public class CommandTool {
         final String printAllTask = "(printalltask)";
         final String printTaskById = "(printtaskbyid) ([0-9]+)";
         final String printTaskByDate = "(printtaskbydate) ([0-9-]+)";
+        final String updateTaskInfo = "(updatetaskinfo) ([a-zA-Z\\sа-яА-Я\\- W$0-9]+;[0-9-]+)";
         Matcher matcher = isPatternMatches(command,addTask);
         if (matcher.find()) {
             String data = matcher.group(2);
@@ -45,6 +46,14 @@ public class CommandTool {
             String [] taskDateData = data.split(";");
             Date date = Date.valueOf(taskDateData[0]);;
             taskRefactoring.printTaskByDate(date.toLocalDate());
+            System.out.println("Ok");
+        }
+        matcher = isPatternMatches(command, updateTaskInfo);
+        if(matcher.find()){
+            String data = matcher.group(2);
+            String [] updateTaskData = data.split(";");
+            int id = Integer.parseInt(updateTaskData[1]);
+            taskRefactoring.updateTaskInfo(updateTaskData[0],id);
             System.out.println("Ok");
         }
     }

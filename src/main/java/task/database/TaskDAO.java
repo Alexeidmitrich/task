@@ -9,5 +9,6 @@ public interface TaskDAO {
     List<Task> getAllTask();
     Task getTaskById(int id);
     Task getTaskByDate(LocalDate date);
+    Task getUpdateTask(String description, int id);
     void save(Task task);
 }

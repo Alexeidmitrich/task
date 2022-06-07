@@ -3,3 +3,4 @@ addtask День рождения;У меня юбилей - 50 лет;2022-06-1
 printalltask
 printtaskbyid 8
 printtaskbydate 2022-06-10
+updatetaskinfo Все будет хорошо;7
