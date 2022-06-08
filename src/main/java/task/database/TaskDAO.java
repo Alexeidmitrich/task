@@ -10,7 +10,7 @@ public interface TaskDAO {
     Task getTaskById(int id);
     Task getTaskByDate(LocalDate date);
     void getUpdateTask(String description, int id);
-    Task getAllTaskByDate(LocalDate date, LocalDate date1);
+    List<Task> getAllTaskByDate(LocalDate date, LocalDate date1);
     void getUpdateTitle(String title, int id);
     void getUpdateDate(LocalDate date, int id);
     void deleteOneTask(int id);

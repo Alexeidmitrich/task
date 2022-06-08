@@ -34,9 +34,11 @@ public class TaskRefactoring {
          taskDAOImpl.getUpdateTask(description, id);
     }
     public void choiceAllTaskByDate(LocalDate date, LocalDate date1){
-       TaskDAOImpl taskDAOImpl = new TaskDAOImpl();
-        Task t = taskDAOImpl.getAllTaskByDate(date, date1);
-        t.printInformation();
+        List<Task> tasks = new TaskDAOImpl().getAllTaskByDate(date, date1);
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            task.printInformation();
+        }
     }
     public void updateTitle(String title, int id){
         TaskDAOImpl taskDAOImpl = new TaskDAOImpl();

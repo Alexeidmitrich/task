@@ -80,7 +80,7 @@ public class TaskDAOImpl extends DBManager implements TaskDAO {
         }
     }
 
-    @Override
+    /*@Override
     public Task getAllTaskByDate(LocalDate date, LocalDate date1) {
         Task task = null;
         try(Connection connection = getConnection()) {
@@ -95,6 +95,24 @@ public class TaskDAOImpl extends DBManager implements TaskDAO {
             ex.printStackTrace();
         }
         return task;
+    }*/
+    public List<Task> getAllTaskByDate(LocalDate date, LocalDate date1) {
+        List<Task> taskList = new ArrayList<>();
+        try(Connection connection = getConnection()) {
+            String sql = "SELECT * FROM task.task WHERE data between ? and ? ";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setDate(1, Date.valueOf(date));
+            statement.setDate(2, Date.valueOf(date1));
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Task task = new Task(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4).toLocalDate());
+                taskList.add(task);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Что-то пошло не так");
+            ex.printStackTrace();
+        }
+        return taskList;
     }
 
     @Override

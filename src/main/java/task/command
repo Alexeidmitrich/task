@@ -4,7 +4,7 @@ printalltask
 printtaskbyid 8
 printtaskbydate 2022-06-10
 updatetaskinfo Все будет хорошо;2
-choicealltaskbydate 2022-06-06;2022-06-08
-updatetitle Отмена;7
+choicealltaskbydate 2022-06-06;2022-06-10
+updatetitle Отмена;1
 updatedate 2022-06-11;12
-deletetask 10
+deletetask 2
