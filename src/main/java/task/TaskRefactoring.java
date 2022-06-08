@@ -42,4 +42,12 @@ public class TaskRefactoring {
         TaskDAOImpl taskDAOImpl = new TaskDAOImpl();
         taskDAOImpl.getUpdateTitle(title, id);
     }
+    public void updateData(LocalDate date, int id){
+        TaskDAOImpl taskDAOImpl = new TaskDAOImpl();
+        taskDAOImpl.getUpdateDate(date, id);
+    }
+    public void deleteTask(int id){
+        TaskDAOImpl taskDAOImpl = new TaskDAOImpl();
+        taskDAOImpl.deleteOneTask(id);
+    }
 }

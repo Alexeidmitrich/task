@@ -20,6 +20,8 @@ public class CommandTool {
         final String updateTaskInfo = "(updatetaskinfo) ([a-zA-Z\\sа-яА-Я\\- W$0-9]+;[0-9-]+)";
         final String choiceAllTaskByDate = "(choicealltaskbydate) ([0-9-]+;[0-9-]+)";
         final String updateTitle = "(updatetitle) ([a-zA-Z\\sа-яА-Я\\- W$0-9]+;[0-9-]+)";
+        final String updateData = "(updatedate) ([0-9-]+;[0-9]+)";
+        final String deleteTask = "(deletetask) ([0-9]+)";
         Matcher matcher = isPatternMatches(command,addTask);
         if (matcher.find()) {
             String data = matcher.group(2);
@@ -80,7 +82,27 @@ public class CommandTool {
             taskRefactoring.updateTitle(updateTitleData[0], id);
             System.out.println("Ok");
         }
+        matcher = isPatternMatches(command, updateData);
+        if(matcher.find()){
+            String data = matcher.group(2);
+            String [] updateDateData = data.split(";");
+            System.out.println(data);
+            Date date = Date.valueOf(updateDateData[0]);
+            int id = Integer.parseInt(updateDateData[1]);
+            taskRefactoring.updateData(date.toLocalDate(), id);
+            System.out.println("Ok");
+        }
+        matcher = isPatternMatches(command, deleteTask);
+        if(matcher.find()){
+            String data = matcher.group(2);
+            String [] deleteTaskData = data.split(";");
+            System.out.println(data);
+            int id = Integer.parseInt(deleteTaskData[0]);
+            taskRefactoring.deleteTask(id);
+            System.out.println("Ok");
+        }
     }
+
 
     public Matcher isPatternMatches(String command, String regex){
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);

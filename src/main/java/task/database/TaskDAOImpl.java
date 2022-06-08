@@ -84,7 +84,7 @@ public class TaskDAOImpl extends DBManager implements TaskDAO {
     public Task getAllTaskByDate(LocalDate date, LocalDate date1) {
         Task task = null;
         try(Connection connection = getConnection()) {
-            String sql = "SELECT * FROM task.task WHERE data between ? and ?";
+            String sql = "SELECT * FROM task.task WHERE data between ? and ? ";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setDate(1, Date.valueOf(date));
             statement.setDate(2, Date.valueOf(date1));
@@ -97,6 +97,30 @@ public class TaskDAOImpl extends DBManager implements TaskDAO {
         return task;
     }
 
+    @Override
+    public void getUpdateDate(LocalDate date, int id) {
+        try(Connection connection = getConnection()) {
+            String sql = "UPDATE task.task  SET data = ? where id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setDate(1, Date.valueOf(date));
+            statement.setInt(2, id);
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteOneTask(int id) {
+        try(Connection connection = getConnection()) {
+            String sql = "DELETE FROM task.task where id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     @Override
     public void save(Task task) {
