@@ -1,6 +1,8 @@
-addtask Встреча;Важная встреча с преподавателем Дмитрием Владимировичем;2022-06-08
+addtask Звонок;Важная встреча с преподавателем Дмитрием Владимировичем;2022-06-09
 addtask День рождения;У меня юбилей - 50 лет;2022-06-10
 printalltask
 printtaskbyid 8
 printtaskbydate 2022-06-10
-updatetaskinfo Все будет хорошо;7
+updatetaskinfo Все будет хорошо;2
+choicealltaskbydate 2022-06-06;2022-06-08
+updatetitle Отмена;7

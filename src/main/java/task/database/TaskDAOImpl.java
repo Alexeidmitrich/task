@@ -43,7 +43,7 @@ public class TaskDAOImpl extends DBManager implements TaskDAO {
     }
     public Task getTaskByDate(LocalDate date) {
         Task task = null;
-        try(Connection connection = getConnection();) {
+        try(Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * from task " +
                     " WHERE data = ?");
             statement.setDate(1,Date.valueOf(date));
@@ -55,14 +55,42 @@ public class TaskDAOImpl extends DBManager implements TaskDAO {
         }
         return task;
     }
-    public Task getUpdateTask(String description, int id) {
-        Task task = null;
+    public void getUpdateTask(String description, int id) {
         try(Connection connection = getConnection()) {
             String sql = "UPDATE task.task  SET description = ? where id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, description);
             statement.setInt(2, id);
             statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getUpdateTitle(String title, int id) {
+        try(Connection connection = getConnection()) {
+            String sql = "UPDATE task.task  SET title = ? where id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, title);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public Task getAllTaskByDate(LocalDate date, LocalDate date1) {
+        Task task = null;
+        try(Connection connection = getConnection()) {
+            String sql = "SELECT * FROM task.task WHERE data between ? and ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setDate(1, Date.valueOf(date));
+            statement.setDate(2, Date.valueOf(date1));
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            task = new Task(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4).toLocalDate());
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

@@ -18,6 +18,8 @@ public class CommandTool {
         final String printTaskById = "(printtaskbyid) ([0-9]+)";
         final String printTaskByDate = "(printtaskbydate) ([0-9-]+)";
         final String updateTaskInfo = "(updatetaskinfo) ([a-zA-Z\\sа-яА-Я\\- W$0-9]+;[0-9-]+)";
+        final String choiceAllTaskByDate = "(choicealltaskbydate) ([0-9-]+;[0-9-]+)";
+        final String updateTitle = "(updatetitle) ([a-zA-Z\\sа-яА-Я\\- W$0-9]+;[0-9-]+)";
         Matcher matcher = isPatternMatches(command,addTask);
         if (matcher.find()) {
             String data = matcher.group(2);
@@ -35,6 +37,7 @@ public class CommandTool {
         matcher = isPatternMatches(command, printTaskById);
         if(matcher.find()){
             String data = matcher.group(2);
+            System.out.println(data);
             String [] oneTaskData = data.split(";");
             int id = Integer.parseInt(oneTaskData[0]);
             taskRefactoring.printTaskById(id);
@@ -43,6 +46,7 @@ public class CommandTool {
         matcher = isPatternMatches(command, printTaskByDate);
         if(matcher.find()){
             String data = matcher.group(2);
+            System.out.println(data);
             String [] taskDateData = data.split(";");
             Date date = Date.valueOf(taskDateData[0]);;
             taskRefactoring.printTaskByDate(date.toLocalDate());
@@ -51,9 +55,29 @@ public class CommandTool {
         matcher = isPatternMatches(command, updateTaskInfo);
         if(matcher.find()){
             String data = matcher.group(2);
+            System.out.println(data);
             String [] updateTaskData = data.split(";");
             int id = Integer.parseInt(updateTaskData[1]);
             taskRefactoring.updateTaskInfo(updateTaskData[0],id);
+            System.out.println("Ok");
+        }
+        matcher = isPatternMatches(command, choiceAllTaskByDate);
+        if(matcher.find()){
+            String data = matcher.group(2);
+            String [] taskByDate = data.split(";");
+            System.out.println(data);
+            Date date = Date.valueOf(taskByDate[0]);
+            Date date1 = Date.valueOf(taskByDate[1]);
+            taskRefactoring.choiceAllTaskByDate(date.toLocalDate(), date1.toLocalDate());
+            System.out.println("Ok");
+        }
+        matcher = isPatternMatches(command, updateTitle);
+        if(matcher.find()){
+            String data = matcher.group(2);
+            System.out.println(data);
+            String [] updateTitleData = data.split(";");
+            int id = Integer.parseInt(updateTitleData[1]);
+            taskRefactoring.updateTitle(updateTitleData[0], id);
             System.out.println("Ok");
         }
     }
